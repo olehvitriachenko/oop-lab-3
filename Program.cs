@@ -1,40 +1,27 @@
 using System.Text;
-using PalindromeApp;
+using Avalonia;
 
-Console.OutputEncoding = Encoding.UTF8;
-Console.InputEncoding = Encoding.UTF8;
+namespace PalindromeApp;
 
-var checker = new PalindromeChecker(new InputValidator());
-
-// Режим тестування: dotnet run -- --test
-if (args.Contains("--test"))
+internal static class Program
 {
-    bool allPassed = new PalindromeTests(checker).RunAll();
-    return allPassed ? 0 : 1;
-}
-
-Console.WriteLine("=== Перевірка слова на паліндром ===");
-Console.WriteLine("Введіть слово або фразу (порожній рядок або \"вихід\" — завершити).");
-
-while (true)
-{
-    Console.Write("\nСлово: ");
-    string? input = Console.ReadLine();
-
-    if (input == null || input.Trim().Equals("вихід", StringComparison.OrdinalIgnoreCase) || input.Trim() == "")
+    [STAThread]
+    public static int Main(string[] args)
     {
-        Console.WriteLine("До побачення!");
-        return 0;
+        // Режим тестування без вікна: dotnet run -- --test
+        if (args.Contains("--test"))
+        {
+            Console.OutputEncoding = Encoding.UTF8;
+            var checker = new PalindromeChecker(new InputValidator());
+            return new PalindromeTests(checker).RunAll() ? 0 : 1;
+        }
+
+        return BuildAvaloniaApp().StartWithClassicDesktopLifetime(args);
     }
 
-    try
-    {
-        Console.WriteLine(checker.IsPalindrome(input)
-            ? $"\"{input}\" — це паліндром."
-            : $"\"{input}\" — це НЕ паліндром.");
-    }
-    catch (InvalidInputException ex)
-    {
-        Console.WriteLine($"Помилка: {ex.Message}");
-    }
+    public static AppBuilder BuildAvaloniaApp() =>
+        AppBuilder.Configure<App>()
+            .UsePlatformDetect()
+            .WithInterFont()
+            .LogToTrace();
 }

@@ -1,0 +1,36 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        x:Class="PalindromeApp.MainWindow"
+        Title="Перевірка на паліндром"
+        Width="560" Height="520" MinWidth="420" MinHeight="420"
+        WindowStartupLocation="CenterScreen">
+
+  <DockPanel Margin="20">
+    <StackPanel DockPanel.Dock="Top" Spacing="10">
+      <TextBlock Text="Перевірка слова на паліндром" FontSize="20" FontWeight="SemiBold" />
+      <TextBlock Text="Регістр літер, пробіли та розділові знаки не враховуються."
+                 Foreground="#666666" TextWrapping="Wrap" />
+
+      <Grid ColumnDefinitions="*,Auto">
+        <TextBox x:Name="WordInput" Grid.Column="0" Watermark="Введіть слово або фразу" />
+        <Button x:Name="CheckButton" Grid.Column="1" Content="Перевірити" Classes="accent"
+                IsDefault="True" Margin="8,0,0,0" />
+      </Grid>
+
+      <Border x:Name="ResultBorder" Padding="14" CornerRadius="8" Background="#F3F3F3">
+        <StackPanel Spacing="4">
+          <TextBlock x:Name="ResultText" FontSize="17" FontWeight="SemiBold" TextWrapping="Wrap"
+                     Text="Тут з'явиться результат." />
+          <TextBlock x:Name="DetailText" Foreground="#666666" TextWrapping="Wrap" />
+        </StackPanel>
+      </Border>
+
+      <Grid ColumnDefinitions="*,Auto" Margin="0,8,0,0">
+        <TextBlock Text="Історія перевірок" FontWeight="SemiBold" VerticalAlignment="Center" />
+        <Button x:Name="ClearButton" Grid.Column="1" Content="Очистити історію" />
+      </Grid>
+    </StackPanel>
+
+    <ListBox x:Name="HistoryList" Margin="0,8,0,0" BorderBrush="#DDDDDD" BorderThickness="1" />
+  </DockPanel>
+</Window>
